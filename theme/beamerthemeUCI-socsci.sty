@@ -1,0 +1,137 @@
+% beamerthemeUCI-socsci.sty
+\ProvidesPackage{beamerthemeUCI-socsci}[2025/08/20 Custom UCI Beamer Theme]
+
+% Dependencies
+\RequirePackage{xcolor} % Custom UCI colors
+\RequirePackage{graphicx}
+\RequirePackage[english]{babel}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage{helvet}   % Arial-like font
+
+% ----------------------------------------------------
+% Handling standard vs. widescreen aspect ratios
+% ----------------------------------------------------
+\newif\ifUCI@widescreen
+\newif\ifUCI@standard
+
+\DeclareOptionBeamer{widescreen}{\UCI@widescreentrue \UCI@standardfalse}
+\DeclareOptionBeamer{standard}{\UCI@standardtrue \UCI@widescreenfalse}
+
+% If no option is given, default to widescreen
+\ExecuteOptionsBeamer{widescreen}
+\ProcessOptionsBeamer
+
+% Resolve background paths relative to the .sty file
+% \makeatletter
+% \newcommand{\socsci@bgpath}{\file@path backgrounds/}
+% \makeatother
+
+% Background templates
+\ifUCI@widescreen
+  \@ifclasswith{beamer}{aspectratio=169}{}{%
+    \PackageError{beamerthemeUCI-socsci}{You must declare \string\documentclass[aspectratio=169]{beamer}}{}
+  }
+  \setbeamertemplate{background}{%
+    % \includegraphics[width=\paperwidth,height=\paperheight]{\socsci@bgpath backgroundwidescreen.pdf}%
+    \includegraphics[width=\paperwidth,height=\paperheight]{backgrounds/backgroundwidescreen.pdf}%
+  }
+\fi
+
+\ifUCI@standard
+  \@ifclasswith{beamer}{aspectratio=43}{}{%
+    \PackageError{beamerthemeUCI-socsci}{You must declare \string\documentclass[aspectratio=43]{beamer}}{}
+  }
+  \setbeamertemplate{background}{%
+    % \includegraphics[width=\paperwidth,height=\paperheight]{\socsci@bgpath backgroundstandard.pdf}%
+    \includegraphics[width=\paperwidth,height=\paperheight]{backgrounds/backgroundstandard.pdf}%
+  }
+\fi
+
+% % Background templates (strict)
+% \ifUCI@widescreen
+%   % Require user to set aspectratio=169 in \documentclass
+%   \@ifclasswith{beamer}{aspectratio=169}{}{%
+%     \PackageError{beamerthemeUCI-socsci}{%
+%       You must declare \string\documentclass[aspectratio=169]{beamer}%
+%     }{}
+%   }
+%   \setbeamertemplate{background}{%
+%     % \includegraphics[width=\paperwidth,height=\paperheight]{\socsci@bgpath backgroundwidescreen.pdf}%
+%     \includegraphics[width=\paperwidth,height=\paperheight]{../theme/backgrounds/backgroundwidescreen.pdf}
+%   }
+% \fi
+
+
+% \ifUCI@standard
+%   % Require default (4:3) or aspectratio=43
+%   \@ifclasswith{beamer}{aspectratio=43}{}{%
+%     \PackageError{beamerthemeUCI-socsci}{%
+%       You must declare \string\documentclass[aspectratio=43]{beamer}%
+%     }{}
+%   }
+%   \setbeamertemplate{background}{%
+%     % \includegraphics[width=\paperwidth,height=\paperheight]{\socsci@bgpath backgroundstandard.pdf}%
+%     \includegraphics[width=\paperwidth,height=\paperheight]{../theme/backgrounds/backgroundstandard.pdf}
+%   }
+% \fi
+
+% ----------------------------------------------------
+% Custom colors
+% ----------------------------------------------------
+% Define custom colors (https://brand.uci.edu/identity/colors.php)
+\definecolor{uci-blue}{rgb}{0.145,0.341,0.6}
+\definecolor{uci-gold}{rgb}{0.997,0.8,0.025}
+
+% Apply custom colors
+\setbeamercolor{headline}{bg=uci-blue, fg=white}
+\setbeamercolor{footline}{bg=uci-blue, fg=white}
+\setbeamercolor{structure}{fg=uci-blue}
+\setbeamercolor{title}{fg=uci-blue,bg=uci-gold}
+\setbeamercolor{block title}{fg=white,bg=uci-blue}
+\setbeamercolor{block body}{fg=black,bg=uci-blue!10}
+\setbeamercolor{item}{fg=uci-blue}
+
+% Uncomment if you want gold bars around slide titles:
+% \setbeamercolor{frametitle}{fg=uci-blue,bg=uci-gold}
+
+% Optional: Title page tweaks
+\setbeamercolor{title}{fg=uci-blue}
+\setbeamercolor{subtitle}{fg=uci-blue!80!black}
+\setbeamercolor{author}{fg=black}
+\setbeamercolor{institute}{fg=black}
+\setbeamercolor{date}{fg=black}
+
+% ----------------------------------------------------
+% Slide layout/theme config
+% ----------------------------------------------------
+\mode<presentation>{
+  \usetheme{default}
+  \usecolortheme{default}
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[numbered]
+}
+\setbeamertemplate{headline}{\vspace{1.4cm}}
+
+\AtBeginSection[]{
+    \begin{frame}
+        \frametitle{Outline}
+        \tableofcontents[currentsection]
+    \end{frame}
+}
+
+\setbeamertemplate{footline}{
+    \leavevmode%
+    \hbox{%
+    \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+        \usebeamerfont{title in head/foot}\insertshortauthor
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+        \usebeamerfont{title in head/foot}\insertshortinstitute
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+        \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
+        \insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+    \end{beamercolorbox}}%
+    \vskip0pt%
+}
+
