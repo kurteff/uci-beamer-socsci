@@ -27,12 +27,12 @@ Then, using the theme is as simple as `\usepackage[widescreen]{beamerthemeUCI-so
 #### Option 3. "Install" theme to your TeX tree
 ```
 # Point bash to your texmf folder
-`echo "export TEXMFHOME=$HOME/texmf" >> ~/.zshrc`
+echo "export TEXMFHOME=$HOME/texmf" >> ~/.zshrc
 # Change dir to the folder you cloned
 cd ./uci-beamer-socsci
 # Copy files to your local TeX install
-mkdir -p ~/texmf/tex/latex/uci-beamer-socsci
-cp -r ./theme/* ~/texmf/tex/latex/uci-beamer-socsci/
+mkdir -p ~/texmf/tex/latex/beamer/
+cp -r ./theme/* ~/texmf/tex/latex/beamer/
 # Update the filename database (if needed)
 mktexlsr ~/texmf
 ```
