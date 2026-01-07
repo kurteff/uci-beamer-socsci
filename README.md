@@ -10,33 +10,32 @@ git clone https://github.com/kurteff/uci-beamer-socsci.git
 ```
 For additional guidance on usage, please see `example.tex`.
 
-#### Option 1. Local import
-Copy and paste the `theme` folder to any project you want to use this theme in. Easy peasy.
+## Installation
+You can just use this theme in a local project directory, but if you plan to use it for many presentations then installing it to your `texmf` folder is the way to go.
 
-_(Note: if you are having issues with paths, configure line 26 of `beamerthemeUCI-socsci.sty` so that it is an absolute path instead of `\file@path`.)_
+The first step is to identify where your TeX distribution expects to see this folder. For macOS, it's usually `~/Library/texmf`, but for Linux it could be simply in `~/texmf`. Then, copy the files from the repo to that folder (example is for macOS):
 
-#### Option 2. Add theme folder to bash profile
-...I would suggest adding an export to your bash profile. For MacOS users this is going to be located at `~/.zshrc` and for most Linux users it will be `~/.bashrc`:
 ```
-# Add to bash profile
-# Please be sure to update /path/to/uci-beamer-socsci !
-echo "export TEXINPUTS=\$HOME/path/to/uci-beamer-socsci/theme//:" >> ~/.zshrc
+mkdir -p ~/Library/texmf/tex/latex/beamer/themes/UCI-socsci
+cp -r ./theme/ ~/Library/texmf/tex/latex/beamer/themes/UCI-socsci/
+mktexlsr ~/Library/texmf
 ```
-Then, using the theme is as simple as `\usepackage[widescreen]{beamerthemeUCI-socsci}` at the start of your `.tex` file.  :)
 
-#### Option 3. "Install" theme to your TeX tree
-```
-# Point bash to your texmf folder
-echo "export TEXMFHOME=$HOME/texmf" >> ~/.zshrc
-# Change dir to the folder you cloned
-cd ./uci-beamer-socsci
-# Copy files to your local TeX install
-mkdir -p ~/texmf/tex/latex/beamer/
-cp -r ./theme/* ~/texmf/tex/latex/beamer/
-# Update the filename database (if needed)
-mktexlsr ~/texmf
-```
-Usage after this is the same as Option 2.
+`kpsewhich beamerthemeUCI-socsci.sty` can help with troubleshooting and should return `/Users/<<your username>>/Library/texmf/tex/latex/beamer/themes/UCI-socsci/beamerthemeUCI-socsci.sty` if your paths are configured properly.
 
-#### For Sublime Text / LaTeXTools users
+
+_(Note: if you are having issues with paths, configuring `beamerthemeUCI-socsci.sty` to use absolute paths instead of relative ones miiiight help)_
+
+### For Sublime Text / LaTeXTools users
 You will have to configure your `LaTeXTools.sublime-settings` file. This is a pain and varies pretty largely by OS so I leave it as an exercise to the reader. :)
+
+Here's what worked for me (macOS Sequoia 15.5):
+
+```
+// Settings in here override those in "LaTeXTools/LaTeXTools.sublime-settings"
+{
+    "texpath": {
+        "osx": "/Library/TeX/texbin"
+    }
+}
+```
